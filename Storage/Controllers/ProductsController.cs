@@ -25,6 +25,21 @@ namespace Storage.Controllers
             return View(await _context.Product.ToListAsync());
         }
 
+        public async Task<IActionResult> Index2()
+        {
+            var model = _context.Product.Select(p => new ProductViewModel
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Count = p.Count,
+                InventoryValue = p.Count * p.Price,
+                Price = p.Price
+            }) ;
+
+
+            return View(await model.ToListAsync());
+        }
+
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -150,9 +165,6 @@ namespace Storage.Controllers
             return _context.Product.Any(e => e.Id == id);
         }
 
-        public IActionResult ProductViewModel()
-        {
-            return View();
-        }
+     
     }
 }
